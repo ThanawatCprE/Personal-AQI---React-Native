@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Header, Content, Footer, FooterTab, Button, Text } from 'native-base';
 import  Map  from './map';
 import  MXHeader  from './header';
+import Choose from './choose'
 class FooterTabs extends Component {
   constructor(props) {
     super(props)
@@ -13,22 +14,47 @@ class FooterTabs extends Component {
             ],
       header: "Home",
       index: 0 ,
+      pages: null
       };
   }
+
+  choosePage =(seq) =>{
+    switch (seq) {
+       case 0:
+        return <Choose style={styles.button}/>
+        break;
+       case 1:
+        return null
+        break;
+       case 2:
+        return <Map />
+        break;
+       default:
+        return null
+    }
+
+  }
+
+  componentDidMount(){
+    this.setState({
+      pages:this.choosePage(0)
+    })
+  }
+
   onPress = (seq) => {
     this.setState({ 
       header: this.state.arr[seq].name,
-      index: seq 
-      
+      index: seq ,
+      pages:this.choosePage(seq)
     });
   }
   render() {
     return (
         <Container>
           <MXHeader headerText={this.state.header}/>
-          <Map />
+          {this.state.pages}
           <Footer style={{position: 'absolute' ,bottom:0 }}>
-            <FooterTab>           
+            <FooterTab>
                {this.state.arr.map((el, index) =>
                       <Button key={index} active={(this.state.index == index) ? true : false}  onPress={() => this.onPress(index)} >
                          <Text>{el.name}</Text>
@@ -41,3 +67,17 @@ class FooterTabs extends Component {
   }
 }
 export default FooterTabs;
+
+const styles = {
+  button: {
+    backgroundColor: '#111',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.4,
+    elevation: 2,
+    position: 'relative'
+  }
+};
