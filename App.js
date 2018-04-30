@@ -25,7 +25,6 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', top:50 }}>
-        <Text style={{fontSize:30}}>Personal AQI</Text>
         <Choose/>
       </View>
     );
@@ -70,18 +69,17 @@ class InfoScreen extends React.Component {
           paddingTop: 50,
           paddingLeft: 20,
           paddingRight: 20,
-          backgroundColor:'gray',
         }}>
-        <View style={{flex: 0.1, backgroundColor:'#fff'}}>
+        <View style={{flex: 0.1}}>
           <Text style={{fontSize:30}}>Definition AQI</Text>
         </View>
-        <View style={{flex: 0.25, backgroundColor:'#d9d9d9'}}>
+        <View style={{flex: 0.25}}>
           <Text style={{fontSize:15}}>      An air quality index (AQI) is a number used by government agencies 
           to communicate to the public how polluted the air currently is or how polluted it is forecast to become. 
           As the AQI increases, an increasingly large percentage of the population is likely to experience increasingly 
           severe adverse health effects.</Text>
         </View>
-        <View style={{flex: 0.6, backgroundColor:'lightblue', top:20}}>
+        <View style={{flex: 0.6, top:20}}>
           <TableAQI/>
         </View>
 
@@ -116,13 +114,13 @@ export default TabNavigator(
 
         // You can return any component that you like here! We usually use an
         // icon component from react-native-vector-icons
-        return <Ionicons name={iconName} size={25} color={tintColor} />;
+        return <Ionicons name={iconName} size={25} color="#3399ff"/>;
       },
     }),
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor: 'tomato',
+      activeTintColor: '#3399ff',
       inactiveTintColor: 'gray',
     },
     animationEnabled: false,
