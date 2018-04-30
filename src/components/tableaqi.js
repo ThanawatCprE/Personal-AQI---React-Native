@@ -6,69 +6,118 @@ class TableAQI extends React.Component {
   render() {
     return (
       <Grid>
-    	<Col style={{justifyContent: 'center',  flex: 0.5}}>
-        	<Row style={{alignItems: 'center', justifyContent: 'center',backgroundColor:'#00ff00'}}>
+    	<Col style={{justifyContent: 'center',  flex: 0.2}}>
+        	<Row style={styles.good}>
             	<Text>0-50</Text>
         	</Row>
-        	<Row style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'#ffff1a'}}>
+        	<Row style={styles.moderate}>
             	<Text>51-100</Text>
         	</Row>
-        	<Row style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'#ff9933'}}>
+        	<Row style={styles.unhealSensitive}>
             	<Text style={{color:'#fff'}}>101-150</Text>
         	</Row>
-        	<Row style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'#ff471a'}}>
+        	<Row style={styles.unHealthy}>
             	<Text style={{color:'#fff'}}>151-200</Text>
         	</Row>
-        	<Row style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'#993399'}}>
+        	<Row style={styles.veryUnhealthy}>
             	<Text style={{color:'#fff'}}>201-300</Text>
         	</Row>
-        	<Row style={{alignItems: 'center', justifyContent: 'center', backgroundColor:'#990033'}}>
+        	<Row style={styles.Hazardous}>
             	<Text style={{color:'#fff'}}>301-500</Text>
         	</Row>
     	</Col>
-    	<Col style={{justifyContent: 'center',  flex: 1, paddingTop:20}}>
-        	<Row>
-            	<Text>good</Text>
+    	<Col style={{justifyContent: 'center',  flex: 0.9}}>
+        	
+        	<Row style={styles.levelStyle}>
+            	<Text>Good</Text>
         	</Row>
-        	<Row>
-            	<Text>moderate</Text>
+        	<Row style={{backgroundColor:'#99ccff'}}>
+            	<Text style={styles.description} >Air quality is considered satisfactory, and air pollution poses little or no risk.</Text>
         	</Row>
-        	<Row>
-            	<Text>sensitive</Text>
+        	
+        	<Row style={styles.levelStyle}>
+        	   	<Text>Moderate</Text>
         	</Row>
-        	<Row>
-            	<Text>unheal</Text>
+        	<Row style={{backgroundColor:'#99ccff'}}>
+            	<Text style={styles.description} >Air quality is acceptable.</Text>
         	</Row>
-        	<Row>
-            	<Text>veryun</Text>
+
+        	<Row style={styles.levelStyle}>
+            	<Text>Unhealthy for Sensitive Group</Text>
         	</Row>
-        	<Row>
-            	<Text>hazadous</Text>
+        	<Row style={{backgroundColor:'#99ccff'}}>
+            	<Text style={styles.description} >High-risk groups may experience health effects. The general public is not affected.</Text>
         	</Row>
-    	</Col>
-    	<Col style={{justifyContent: 'center',  flex: 1, paddingTop:20}}>
-        	<Row>
-            	<Text>ok</Text>
+        	
+        	<Row style={styles.levelStyle}>
+            	<Text>Unhealthy</Text>
         	</Row>
-        	<Row>
-            	<Text>accept</Text>
+        	<Row style={{backgroundColor:'#99ccff'}}>
+            	<Text style={styles.description} >Everyone has health effects; High-risk groups has more serious health effects.</Text>
         	</Row>
-        	<Row>
-            	<Text>sen</Text>
+        	
+        	<Row style={styles.levelStyle}>
+            	<Text>Very Unhealthy</Text>
         	</Row>
-        	<Row>
-            	<Text>effect</Text>
+        	<Row style={{backgroundColor:'#99ccff'}}>
+            	<Text style={styles.description} >Health alert: everyone has more serious health effects.</Text>
         	</Row>
-        	<Row>
-            	<Text>wanning</Text>
+        	
+        	<Row style={styles.levelStyle}>
+        	   	<Text>Hazadous</Text>
         	</Row>
-        	<Row>
-            	<Text>serious</Text>
+        	<Row style={{backgroundColor:'#99ccff'}}>
+            	<Text style={styles.description} >Health warnings of emergency conditions. The entire population is more likely to be affected.</Text>
         	</Row>
+
     	</Col>
 	</Grid>
     );
   }
 }
+
+const styles = {
+	good : {
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor:'#00ff00'
+	},
+	moderate : {
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor:'#ffff1a'
+	},
+	unhealSensitive : {
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor:'#ff9933'
+	},
+	unHealthy : {
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor:'#ff471a'
+	},
+	veryUnhealthy : {
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor:'#bf40bf'
+	},
+	Hazardous : {
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor:'#ac39ac'
+	},
+	levelStyle :{
+		alignItems: 'center',
+		paddingLeft:5,
+		flex:0.5,
+		backgroundColor:'#4da6ff'
+	},
+	description: {
+		fontSize:12,
+		paddingLeft:3
+	}
+}
+
 export default TableAQI;
 
