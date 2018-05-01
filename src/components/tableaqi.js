@@ -100,12 +100,12 @@ const styles = {
 	veryUnhealthy : {
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor:'#bf40bf'
+		backgroundColor:'#cc00cc'
 	},
 	Hazardous : {
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor:'#ac39ac'
+		backgroundColor:'#990033'
 	},
 	levelStyle :{
 		alignItems: 'center',
@@ -120,4 +120,3 @@ const styles = {
 }
 
 export default TableAQI;
-
