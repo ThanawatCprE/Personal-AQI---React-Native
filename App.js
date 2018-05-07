@@ -53,27 +53,15 @@ import React from 'react';
 import { Container, Content, Header, Form, Input, Item, Button, Label } from 'native-base';
 import {  StyleSheet, Text, View,YellowBox } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Version can be specified in package.json
-import { TabNavigator, TabBarBottom } from 'react-navigation'; // Version can be specified in package.json
-import UserAvatar from 'react-user-avatar'
+import { TabNavigator, TabBarBottom,StackNavigator } from 'react-navigation'; // Version can be specified in package.json
 import _ from 'lodash';
-// import Expo from "expo";
-
 
 import HomeScreen from './src/contrianer/HomeScreen'
 import MeasureScreen from './src/contrianer/MeasureScreen'
 import MapScreen from './src/contrianer/MapScreen'
 import InfoScreen from './src/contrianer/InfoScreen'
 
-//fix warning set timer for andriod
-// YellowBox.ignoreWarnings(['Setting a timer']);
-// const _console = _.clone(console);
-// console.warn = message => {
-//   if (message.indexOf('Setting a timer') <= -1) {
-//     _console.warn(message);
-//   }
-// };
-
-export default TabNavigator(
+const Profile = TabNavigator(
   {
     Home: { screen: HomeScreen },
     Measure: { screen: MeasureScreen },
@@ -107,3 +95,20 @@ export default TabNavigator(
     swipeEnabled: false,
   }
 );
+
+const stackNav = StackNavigator({
+    Login: {
+        screen: HomeScreen,
+        navigationOptions:({navigation}) => ({
+            header:null
+        })
+    },
+    Profile: {
+        screen: Profile,
+        navigationOptions: (props) => ({
+            header:null
+        })
+    }
+})
+
+export default stackNav;
