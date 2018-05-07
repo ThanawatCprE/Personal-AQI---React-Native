@@ -13,9 +13,9 @@ class Suggestion extends React.Component {
       },
      
     };
-
+     this.user =  firebase.auth().currentUser;
     //this.deviceRef = firebase.database().ref().child('Device');
-    this.aqiRef = firebase.database().ref().child('AQI').orderByKey().limitToLast(1);
+    this.aqiRef = firebase.database().ref().child('User').child(this.user.displayName).child('DeviceID').child('AQI').orderByKey().limitToLast(1);
   }
    updatePreventive = async (aqi) => {
         this._getAQI(this.aqiRef);

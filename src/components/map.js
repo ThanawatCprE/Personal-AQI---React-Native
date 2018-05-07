@@ -7,20 +7,27 @@ import {
   View,
   Alert,
   TouchableOpacity,
-  ListView
+  ListView,
+  Image
 } from 'react-native';
 
 
 import { Constants, MapView, Location, Permissions } from 'expo';
 import firebase from './configFirebase';
 
+// import Green from '../flag/fgood.png'
+// import Yellow from '../flag/fmoderate.png'
+// import Orange from '../flag/funforsens.png'
+// import Red from '../flag/funhealt.png'
+// import Purple from '../flag/fvery.png'
+// import Piggy from '../flag/fhaz.png'
 class Map extends React.Component {
   constructor(props) {
     super(props);
 
     // console.log(firebase.name);
     // console.log(firebase.database());
-
+    
     this.state = {
     	mapRegion: { latitude: 13.8298856, longitude: 100.5984373, latitudeDelta: 0.0922, longitudeDelta: 0.0421 },
 	    locationResult: null,
@@ -31,18 +38,46 @@ class Map extends React.Component {
       },
      
     };
-
-    this.deviceRef = firebase.database().ref().child('Device');
-    this.aqiRef = firebase.database().ref().child('AQI').orderByKey().limitToLast(1);
+    this.user =  firebase.auth().currentUser;
+    this.MarkerRef = firebase.database().ref().child('User').child(this.user.displayName).child('Marker');
+    // this.MarkerRef = firebase.database().ref().child('User').;
+    this.aqiRef = firebase.database().ref().child('User').child(this.user.displayName).child('DeviceID').child('AQI').orderByKey().limitToLast(1);
   }
 componentWillMount() {
   this._getAQI(this.aqiRef);
-  this._getLocationMarker(this.deviceRef);
+  this._getLocationMarker(this.MarkerRef);
 } 
 componentDidMount() {
+    
     this._getLocationAsync();
 }
-
+componentWillUpdate = async (nextProps, nextState) =>{
+  // console.log("bank")
+  if(nextState.AQI.value != this.state.AQI.value){
+    let aqi =nextState.AQI.value
+    if(aqi > 150){
+          let location = await Location.getCurrentPositionAsync({});
+          console.log(location.coords)
+          Alert.alert(
+            'Save AQI value for location ?',
+            'This AQI value :' + aqi.toString(),
+            [
+              {text: 'Sure', onPress: () => { 
+                const  checkPoint={
+                  aqi,
+                  coordinate:location.coords
+                }
+                this.MarkerRef.push(checkPoint);  
+                this._getLocationMarker(this.MarkerRef);
+              }
+            },
+              {text: 'no Thank', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            ]
+          )
+    }
+  }
+  // this.alertWarning(prevState.AQI.value)
+}
   _MapRegionChange = location => {
     console.log("test")
     this.setState({ location:{
@@ -78,8 +113,9 @@ componentDidMount() {
  
  // **** warning  add marker ***
  _warning = async (aqi) => {
-  // if(aqi>150){
+  
         this._getAQI(this.aqiRef);
+        
         let location = await Location.getCurrentPositionAsync({});
         console.log(location.coords)
         Alert.alert(
@@ -91,8 +127,8 @@ componentDidMount() {
                 aqi,
                 coordinate:location.coords
               }
-              this.deviceRef.push(checkPoint);  
-              this._getLocationMarker(this.deviceRef);
+              this.MarkerRef.push(checkPoint);  
+              this._getLocationMarker(this.MarkerRef);
             }
           },
             {text: 'no Thank', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
@@ -100,30 +136,55 @@ componentDidMount() {
         )
       // }
   }
-
+alertWarning(aqi){
+  if(aqi> 150){
+    // setInterval(function(){
+    this._warning(aqi);
+     // },5000)
+  }
+}
 // **** check for color of marker from aqi value *****
 
+ // _checkPoint_color = (aqi) => {
+ //    if(aqi > 300){
+ //      return Piggy  
+ //    }
+ //    else if(aqi > 200){
+ //      return Purple
+ //    }
+ //    else if(aqi > 150){
+ //      return Red
+ //    }
+ //    else if(aqi > 100){
+ //      return Orange
+ //    }
+ //    else if(aqi > 50){
+ //      return Yellow
+ //    }
+ //    else{
+ //      return Green
+ //    }
+ // }
  _checkPoint_color = (aqi) => {
     if(aqi > 300){
-      return "#330000"
+      return "linen"  
     }
     else if(aqi > 200){
-      return "#660066"
+      return "purple" 
     }
     else if(aqi > 150){
-      return "#ff0000"
+      return "red" 
     }
     else if(aqi > 100){
-      return "#ff6600"
+      return "orange"
     }
     else if(aqi > 50){
-      return "#ffff00"
+      return "yellow"
     }
     else{
-      return "#009933"
+      return "green"
     }
  }
- 
  // **** get data aqi from firebase *****
   _getAQI = (aqiRef) => {
  // setInterval(function(){
@@ -146,9 +207,9 @@ componentDidMount() {
   } 
 
  // **** get value of location from firebase 
- _getLocationMarker(deviceRef) {
+ _getLocationMarker(MarkerRef) {
  
-    deviceRef.on('value', (snap) => {
+    MarkerRef.on('value', (snap) => {
       var marker = [];
       snap.forEach((child) => {
         marker.push({
@@ -170,7 +231,17 @@ componentDidMount() {
  checkPoint_show = () => {
   if(this.state.marker.length != 0){
      return ( 
-      this.state.marker.map((el, index) => <MapView.Marker key={index}   title={"AQI"} description={"value => "+el.aqi.toString()} pinColor={this._checkPoint_color(el.aqi)} coordinate={el.coordinate}/>)
+      this.state.marker.map((el, index) => 
+        <MapView.Marker key={index}   
+        title={"AQI"} 
+        description={"value => "+el.aqi.toString()} 
+        // image={require('../flag/fgood.png')} 
+        pinColor={this._checkPoint_color(el.aqi)} 
+        coordinate={el.coordinate}
+        >
+       
+        </MapView.Marker>
+        )
       )
   }
  }
@@ -204,6 +275,7 @@ componentDidMount() {
               <Text>Save</Text>
             </TouchableOpacity> 
           </View>
+        
         </View>
 
     );
@@ -251,7 +323,7 @@ const styles = StyleSheet.create({
     height: 25,
     width: 100,
     alignItems: 'center',
-  }
+  },
 
 });
 export default Map;
