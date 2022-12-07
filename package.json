@@ -23,7 +23,7 @@
     "firebase": "^4.13.1",
     "native-base": "^2.4.2",
     "react": "16.2.0",
-    "react-native": "0.52.0",
+    "react-native": "0.70.6",
     "react-native-beacons-manager": "^1.0.7",
     "react-native-elements": "^0.19.1",
     "react-native-ibeacon": "^0.6.0",
